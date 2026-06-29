@@ -1,0 +1,35 @@
+services:
+  cdmb_container:
+    build: .
+    container_name: aspire
+    image: aspire_image
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: breastscan
+      POSTGRES_HOST: postgres_cm
+      POSTGRES_PORT: 5432
+    ports:
+      - "3000:3000"
+    volumes:
+      - $PWD/projects:/home/mambauser/projects
+
+  postgres_db:
+    image: postgres:17-alpine
+    container_name: postgres_CM
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: breastscan
+    ports:
+      - "5432:5432"
+    volumes:
+      # This volume initializes the database with the provided Schema creation SQL
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      # This volume stores data, so they are persisted outside the container
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    

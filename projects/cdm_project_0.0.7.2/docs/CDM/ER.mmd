@@ -1,0 +1,121 @@
+erDiagram
+  women_ent {
+    String woman_id
+    Date birth_date_dt
+    Integer menarque_age_nm
+    Integer n_full_term_pregnancies_nm
+    Integer age_first_fullterm_pregnancy_nm
+    Boolean breastfeeding_bl
+    Integer breastfeeding_nm
+    Integer menopause_cd
+    Integer menopause_age_nm
+    Integer menopause_cause_cd
+    Integer personal_cancer_history_cd
+    Integer breast_cancer_familial_atc_cd
+    Integer ovarian_cancer_familial_atc_cd
+    Integer surgical_atc_left_breast_cd
+    Integer surgical_atc_right_breast_cd
+    Boolean hormonal_contraception_use_bl
+    Integer hormonal_contraception_duration_nm
+    Boolean hormonal_replacement_therapy_bl
+    Integer hormonal_replacement_therapy_duration_nm
+    Boolean histerectomy_bl
+    Integer height_nm
+    Double weight_nm
+    Boolean comorbidity_cardiovascular_disease_bl
+    Boolean comorbidity_hypertension_bl
+    Boolean comorbidity_diabetes_bl
+    Boolean comorbidity_obesity_bl
+    Integer smoking_status_cd
+    Integer age_started_smoking_nm
+    Boolean left_breast_pathology_atc_bl
+    Boolean right_breast_pathology_atc_bl
+    Boolean left_mammary_prosthesis_bl
+    Boolean right_mammary_prosthesis_bl
+    String residence_local_administrative_unit_cd
+    Integer genetic_testing_brca1_cd
+    Integer genetic_testing_brca2_cd
+    Integer genetic_testing_palb2_cd
+    Integer genetic_testing_check2_cd
+    Date exitus_dt
+  }
+  dicom_series_ent {
+    String woman_id
+    String study_id
+    String series_id
+    Date image_test_dt
+    Integer image_laterality_cd
+    Integer image_type_cd
+    Integer image_reason_cd
+    String healthcare_centre_cd
+    String manufacturer_id
+    Integer breast_density_cd
+    Integer birads_cd
+    Integer benign_lesion_cd
+    Integer malignant_lesion_cd
+    Integer lesion_location_cd
+    Double lesion_size_nm
+    Integer lesion_mass_shape_cd
+    Integer lesion_mass_margin_cd
+    Integer lesion_associated_features_cd
+    Integer ct_cd
+    Integer cn_cd
+    Integer n_lesions_nm
+    Integer exploration_result_cd
+    String exploration_description_st
+  }
+  surgical_treatment_ent {
+    String woman_id
+    Integer initial_treatment_cd
+    String initial_treatment_code_st
+    Date initial_treatment_date_dt
+    Integer surgical_intervention_type_cd
+    Integer adyuvant_treatment_cd
+    Boolean lymphovascular_invasion_bl
+    Integer number_lymph_nodes_examined_nm
+    Integer number_lymph_nodes_positive_nm
+  }
+  pathological_specimen_ent {
+    String woman_id
+    Date biopsy_dt
+    Integer procedure_type_cd
+    Integer tumor_histotype_cd
+    Double estrogen_receptors_perc_nm
+    Double progesterone_receptors_perc_nm
+    Boolean her2_ihc_status_bl
+    Boolean her2_fish_positive_bl
+    Double ki67_perc_nm
+    Integer intrinsic_subtype_cd
+    Integer breast_cancer_molecular_subtype_cd
+    Integer tumor_grade_cd
+    Integer tumor_stage_cd
+    Integer tumor_type_cd
+    Integer tumor_initial_t_stage_cd
+    Integer tumor_initial_n_stage_cd
+    Integer staging_cmetastasis_cd
+  }
+  neoadjuvant_treatment_ent {
+    String woman_id
+    String neoadjuvant_therapy_drug_atc_cd
+    String neoadjuvant_therapy_drug_rxnorm_cd
+    Integer neoadjuvant_therapy_duration_nm
+    Integer drug_dosage_nm
+    Double cumulative_drug_dosage_nm
+  }
+  followup_ent {
+    String woman_id
+    Integer neoadjuvant_therapy_response_mp_cd
+    Integer neoadjuvant_therapy_response_rcb_cd
+    Integer ypt_cd
+    Integer ypn_cd
+    Integer ypm_cd
+    Date recurrence_date_dt
+    Boolean recurrence_bl
+    Integer recurrence_site_cd
+    Date last_followup_contact_dt
+  }
+  women_ent ||--o{ dicom_series_ent : "woman_id_FK_woman_id"
+  women_ent ||--o{ pathological_specimen_ent : "woman_id_FK_woman_id"
+  women_ent ||--o{ surgical_treatment_ent : "woman_id_FK_woman_id"
+  women_ent ||--o{ followup_ent : "woman_id_FK_woman_id"
+  women_ent ||--o{ neoadjuvant_treatment_ent : "woman_id_FK_woman_id"

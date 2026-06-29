@@ -1,0 +1,2121 @@
+{
+  "created_dt": "20260520213721_cdmb",
+  "cdmb_version": "2.0.0",
+  "uuid": "95066894-204a-4ed5-8024-1fbb98c78f20",
+  "metadata": {
+    "project": "BreastScan",
+    "funder": "BreastSCan is co-funded under the EU4Health Programme 2021-2027 under grant agreement no. 101219312. Funded by the European Union.",
+    "url_project": "https://www.eibir.org/projects/breastscan/",
+    "work_package": "WP4",
+    "use_case": "breast_screening_cancer_prediction",
+    "document": "Common Data Model",
+    "version_sem": "0.0.7",
+    "authors": [
+      {
+        "name": "HULAFE",
+        "affiliation": "",
+        "id": ""
+      },
+      {
+        "name": "IACS",
+        "affiliation": "",
+        "id": ""
+      }
+    ],
+    "keywords": [
+      "breast cancer",
+      "prediction",
+      "population screening",
+      "interval cancer",
+      "preventive health services",
+      "public health",
+      "image analysis"
+    ],
+    "description": "Study of breast cancer diagnosed during routine mammogram screenings including interval cancer. ",
+    "notes": "Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or European Health and Digital Executive Agency. Neither the European Union nor the granting authority can be held responsible for them. \n0.0.2 Minor typos in some variable names have been corrected. Catalogs have been added and minor errors in the 'transformations_from_origin' column have been corrected.\n0.0.3 Added Description, Authors, and several variables added in several Entities. \n0.0.4 Added logic 'women_id > studio_id > serie_id' to 'diagnosis_image_ent'. Deleted variables with laterality notion as it is included in the 'serie_id'. Updated NUTS catalogue to delete spaces within variable labels. Corrected variables {'image_type_cd', 'ct_cd', 'cn_cd'} to format 'Integer', as indicated by their catalogue (i.e., data dictionary). \n0.0.5 Updated 'diagnosis_image_ent' to 'dcm_studies_metadata'. Added 'manufacturer_id' to 'dcm_studies_metadata'. \n0.0.6 changed 'diagnosis_image_ent' to 'dicom_series_ent'\n0.0.7 Corrections in model from feedback. \n   Updated cohort definition\n   Fixed some mispelled variable names\n   Added DBT and CEM image type to catalog\n   manufacturer_id as coded field based on catalog\n   lesion_laterality --> image_laterality\n   n_examinations_nm --> n_lesion_nm\n   added personal_cancer_history_cd\n   added image / contact reason (image_reason_cd)",
+    "spatial_coverage": "Europe",
+    "license": "CC BY 4.0 https://creativecommons.org/licenses/by/4.0/"
+  },
+  "cohort": {
+    "name": "breast_cancer_screening",
+    "description": "Women undergoing population breast cancer screening with at least two screening sessions with their corresponding mammograms or other type of breast image. Women attending every two (commonly) years the corresponding Screening Prevention Program Units of their region or country; excluding women with metal implants.  ",
+    "inclusion_criteria": "Women undergoing population breast cancer screening with at least two screening sessions with their corresponding mammograms or other type of breast image.",
+    "exclusion_criteria": "Women with metal implants.  ",
+    "beginning_study_period": "2000-01-01",
+    "end_study_period": "2027-12-31",
+    "cohort_definition_inclusion": null,
+    "cohort_definition_exclusion": null
+  },
+  "entities": [
+    {
+      "name": "women_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "Pseudoidentifier of each women screened",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "Apply encryption to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "birth_date_dt",
+          "description": "Woman's date of birth (month-year)",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "MM-YYYY",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "menarque_age_nm",
+          "description": "Age in years when the woman had her first menstruation",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "years",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "n_full_term_pregnancies_nm",
+          "description": "Number of full term pregnancies",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "age_first_fullterm_pregnancy_nm",
+          "description": "Age the women completed a full term pregnancy",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "years",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "breastfeeding_bl",
+          "description": "In women having full term pregnancies, this variable records if she was breastfeeding at any point",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "breastfeeding_nm",
+          "description": "In women having full term pregnancies, this variable records how many months she was breastfeeding",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "months",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "menopause_cd",
+          "description": "Records menopause status, as cessation of menstruation",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = unknown, '1' = premenopausic, '2' = perimenopausic, '3' = postmenopausic}",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "'premenopausic' (before any menopausal symptoms), 'perimenopausic' (transition phase with symptomps), 'postmenopause' (after 12 consecutive months without a period). The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "menopause_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "menopause_age_nm",
+          "description": "Age at which the woman reach postmenopause (after 12 consecutive months without a period)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "years",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "menopause_cause_cd",
+          "description": "Causes include natural, early/premature (before age 45), and induced (due to surgery or other)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = no menopause, '1' = natural, '2' = early premature, '3' = induced}",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "'NA' corresponds to not having menopause, 'early premature' (before age 45), 'induced' (due to surgery or other medical interventions such as hysterectomy or hormonal therapy. The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "menopause_cause_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "personal_cancer_history_cd",
+          "description": "Previous tumours diagnosed",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{0=none,\n1=breast,\n2=ovarian,\n3=pancreatic,\n4=uterine,\n9=others}",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "personal_cancer_history_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "breast_cancer_familial_atc_cd",
+          "description": "Family history of breast cancer, specially in first degree relative like a mother,sister or daugther",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = none, '1' = first degree, '2' = first degree under 50yo, '3' = second degree}",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "breast_cancer_familial_atc_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "ovarian_cancer_familial_atc_cd",
+          "description": "Family history of ovarian cancer, specially among first degree relatives ",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = none, '1' = first degree, '2' = first degree under 50yo, '3' = second degree}",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "ovarian_cancer_familial_atc_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "surgical_atc_left_breast_cd",
+          "description": "Personal history of surgical interventions in the breast",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = unknown, '1' = none, '2' = breast reduction, '3' = breast augmentation, '4' = exeresis, '5' = benign nodule exeresis}",
+          "possible_data_source": "Minimun basic hospital discharge dataset",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "surgical_atc_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "surgical_atc_right_breast_cd",
+          "description": "Personal history of surgical interventions in the breast",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = unknown, '1' = none, '2' = breast reduction, '3' = breast augmentation, '4' = exeresis, '5' = benign nodule exeresis}",
+          "possible_data_source": "Minimun basic hospital discharge dataset",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "surgical_atc_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "hormonal_contraception_use_bl",
+          "description": "Use of hormonal contraception ",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "hormonal_contraception_duration_nm",
+          "description": "Duration of the hormonal contraception therapy (in number of months)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "hormonal_replacement_therapy_bl",
+          "description": "Use of any hormonal replacement therapy during post-menopause",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "hormonal_replacement_therapy_duration_nm",
+          "description": "Duration of the hormonal replacement therapy (in number of months)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "histerectomy_bl",
+          "description": "Whether surgical the removal or the uterus (womb) has been performed",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR) or Minimum basic hospital discharge dataset",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "height_nm",
+          "description": "Woman's height in centimetres",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "centimetres",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "weight_nm",
+          "description": "Woman's weight in kilograms",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "kilograms",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "comorbidity_cardiovascular_disease_bl",
+          "description": "Woman's comorbidities: Cardiovascular disease",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "comorbidity_hypertension_bl",
+          "description": "Woman's comorbidities: Hypertension",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "comorbidity_diabetes_bl",
+          "description": "Woman's comorbidities: Diabetes",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "comorbidity_obesity_bl",
+          "description": "Woman's comorbidities: Obesity ",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "smoking_status_cd",
+          "description": "Clinical classification of a woman's tobacco use. Typically categorized as never smoker, former (ex-) smoker, or current smoker (daily or occasional)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = never smoked, '1' = former (ex-) smoker, '2' = current smoker (daily or occasional)}",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "smoking_status_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "age_started_smoking_nm",
+          "description": "If the woman has smoking_status_cd different than '0', then the age at which the smoking habit started",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "years",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "left_breast_pathology_atc_bl",
+          "description": "Whether there is a personal history of surgical interventions in the LEFT breast",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "right_breast_pathology_atc_bl",
+          "description": "Whether there is a personal history of surgical interventions in the RIGHT breast",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "left_mammary_prosthesis_bl",
+          "description": "Whether the woman has a personal history of surgical intervention in the LEFT breast to implant a mammary prosthesis",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "right_mammary_prosthesis_bl",
+          "description": "Whether the woman has a personal history of surgical intervention in the RIGHT breast to implant a mammary prosthesis",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic health records (EHR)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "residence_local_administrative_unit_cd",
+          "description": "Local administrative unit of residence of the woman",
+          "standard_classification": "EU LAU CODE",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database",
+          "observations_comments": "EU LAU codes or Local Administrative Units codes are roughly equivalent to municipalities. ",
+          "examples": "",
+          "catalog": {
+            "filename": "eu_27_lau_2025_nuts_2024.csv",
+            "column_name": "EU_LAU_CODE"
+          }
+        },
+        {
+          "label": "genetic_testing_brca1_cd",
+          "description": "Genetic testing: BRCA1",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = none, '1' = negative, '2' = positive}",
+          "possible_data_source": "Laboratory data",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "genetic_testing_brca2_cd",
+          "description": "Genetic testing: BRCA2",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = none, '1' = negative, '2' = positive}",
+          "possible_data_source": "Laboratory data",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "genetic_testing_palb2_cd",
+          "description": "Genetic testing: PALB2",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = none, '1' = negative, '2' = positive}",
+          "possible_data_source": "Laboratory data",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "genetic_testing_check2_cd",
+          "description": "Genetic testing: CHECK2",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = none, '1' = negative, '2' = positive}",
+          "possible_data_source": "Laboratory data",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "exitus_dt",
+          "description": "Date of the death of the woman",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "DD-MM-YYYY",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Insurers database or health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {
+        "hormonal_replacement_therapy_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "hormonal_replacement_therapy_duration_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "histerectomy_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "weight_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "smoking_status_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "age_started_smoking_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "surgical_atc_left_breast_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "surgical_atc_right_breast_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "right_breast_pathology_atc_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "left_mamary_prothesis_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "left_mammaryprosthesis_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "right_mammary_prosthesis_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "exitus_dt": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "residence_local_administrative_unit_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "comorbidity_obesity_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "birth_date_dt": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "genetic_testing_brca2_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "genetic_testing_palb2_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "genetic_testing_check2_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "personal_cancer_history_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        }
+      }
+    },
+    {
+      "name": "dicom_series_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "PseudoIdentifier of the woman undergoing breast cancer screening",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "Apply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "study_id",
+          "description": "PseudoIdentifier of the diagnosis image studio",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "Apply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Diagnosis image metadata",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "series_id",
+          "description": "PseudoIdentifier of the image series",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "Apply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Diagnosis image metadata",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "image_test_dt",
+          "description": "Date when the radiological image was taken ",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "2025-01-01",
+          "catalog": null
+        },
+        {
+          "label": "image_laterality_cd",
+          "description": "Laterality of the image. To which breast corresponds the image",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{1 = left, 2 = right, 3 = don't apply}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "image_laterality_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "image_type_cd",
+          "description": "Common types of diagnostic image test including mammograms (standard and 3D), breast ultrasound, MRI",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'1' = mamogram (MMG), '2' = magnetic resonance imaging (MRI), '3' = ultrasounds (ECO), '4' = breast tomosynthesis (DBT), '5' = contrast enhanced mammography (CEM), '6' = diagnosis/staging images (DSB)}",
+          "possible_data_source": "Diagnosis image database; Radiology",
+          "observations_comments": "Mamograms can be standard or 3D. DSB can correspond to any other imaging technice like CT scans, bone scans, and PET scans used for diagnosis or staging in breast cancer. The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "image_type_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "image_reason_cd",
+          "description": "Reason for contact",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{1 = Screening,\n2 = Recall for screening,\n3 = Clinical/referred with symptoms}",
+          "possible_data_source": "Electronic Health Record  / healthcare center",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "image_reason.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "healthcare_centre_cd",
+          "description": "Healthcare centre where the image was taken",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "National/Regional healthcare centre catalogue",
+          "observations_comments": "Best if it complies with national or regional healthcare centre catalogues",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "manufacturer_id",
+          "description": "Coded name of the diagnosis imaging device manufacturer",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{SIEMENS=Siemens,\nGE = General Electric,\nFUJI = Fujifilm,\nAGFA = AGFA,\nPHILLIPS = Phillips,\nUNK = unknown}",
+          "possible_data_source": "Diagnosis image metadata",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "manufacturer_id_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "breast_density_cd",
+          "description": "Breast density as assessed using the image test",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = unknown, '1' = ACRa, '2' = ACRb, '3' = ACRc, '4' = ACRd}",
+          "possible_data_source": "Radiology report; Image feature extraction; ",
+          "observations_comments": "Categories correspond to: A (almost entirely fatty), B (scattered areas of fibroglandular density), C (heterogenous dense), and D (extremely dense). A and B are considered fatty; while C and D are considered dense. The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "breast_density_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "birads_cd",
+          "description": "Breast Imaging Reporting and Data System (BIRADS) classification by American College of Radiology",
+          "standard_classification": "BIRADS",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0', '1', '2', '3', '4', '5', '6' = unknown}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "birads_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "benign_lesion_cd",
+          "description": "Presence of benign breast lesions and non-cancerous grows (i.e., fibrocistic changes, fibroadenomas)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = none, '1' = fibrocystis, '2' = fibroadenomas, '3' = cysts, '4' = microcalcifications}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "benign_lesion_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "malignant_lesion_cd",
+          "description": "Presence of malignant lesions",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = none, '1' = unifocal, '2' = multifocal, '3' = multicentric}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "malignant_lesion_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "lesion_location_cd",
+          "description": "Locator of the lesion following a four-quadrant system or a clock-face method",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = none, '1' = Upper Outer Quadrant (UOQ), '2' = Upper Inner Quadrant (UIQ), '3' = Lower Outer Quadrant (LOQ), '4' = Lower Inner Quadrant (LIQ), '5' = Axillary tail of breast, '6' = Nipple area complex, '7' = Central portion of breast}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "lesion_location_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "lesion_size_nm",
+          "description": "Size of the larger diameter of the lesion detected in centimetres",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "cm",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "lesion_mass_shape_cd",
+          "description": "Suspicious features of the detected lesion",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'NA', '0' = unknown, '1' = none, '2' = oval, '3' = round, '4' = irregular}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "lesion_mass_shape_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "lesion_mass_margin_cd",
+          "description": "Edge where the detected lesion meets the surrounding tissue",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'NA', '0' = unknown, '1' = none, '2' = circumscribed, '3' = angular, '4' = microlobulated, '5' = indistinct, '6' = spiculated}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "lesion_mass_margin_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "lesion_associated_features_cd",
+          "description": "Presence of other relevant features in the detected lesion",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'NA','0' = none, '1' = skin thickness, '2' = skin retraction, '3' = retraction of the nipple, '4' = architectural distortion, '5' = duct changes, '6' = edema, '7' = absent vascularity, '8' = internal vascularity, '9' = vessels in rim(adjecent sign)}",
+          "possible_data_source": "Radiology report; Image feature extraction",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "lesion_associated_features_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "ct_cd",
+          "description": "Describes the size of the primary tumor and its extent of invasion into surrounding tissues (cT) assessed during surgery",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Tx, '1' = T0, '2' = Tis, '3' = T1mi, '4' = T1, '5' = T1a, '6' = T1b, '7' = T1c, '8' = T2, '9' = T3, '10' = T4, '11' = T4a, '12' = T4b, '13' = T4c, '14' = T4d}",
+          "possible_data_source": "Tumor stage surgical valoration",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "ct_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "cn_cd",
+          "description": "Describes the N category of the TNM system describing how cancer has spread to nearby lymph nodes (cN) assessed during surgery",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Nx, '1' = N0, '2' = N0(i+), '3' = N0(mol+), '4' = N1, '5' = N1mi, '6' = N1a, '7' = N1b, '8' = N1c, '9' = N2, '10' = N2a, '11' = N2a, '12' = N2b, '13' = N3, '14' = N3a, '15' = N3b, '16' = N3c}",
+          "possible_data_source": "Tumor stage surgical valoration",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "cn_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "n_lesions_nm",
+          "description": "Number of lesions found. 0 if there is not found lesion in the image ",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Diagnosis image database, Radiology",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "exploration_result_cd",
+          "description": "Result of exploration of the explored breast ",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = negative, '1' = suspect, '2' = positive}",
+          "possible_data_source": "Radiology report",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "exploration_results_l_r_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "exploration_description_st",
+          "description": "Narrative description of the exploration results for the breast",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Radiology report",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {
+        "exploration_result_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "exploration_description_st": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "image_type_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "ct_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "cn_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "manufacturer_id": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "study_id": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "series_id": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "image_laterality_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "n_lesions_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "image_reason_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        }
+      }
+    },
+    {
+      "name": "surgical_treatment_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "PseudoIdentifier",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": " \tApply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "initial_treatment_cd",
+          "description": "First treatment (or planned treatment) the patient underwent",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = none, '2' = neoadyuvancy, '3' = surgery}",
+          "possible_data_source": "Minimun basic hospital discharge dataset",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "initial_treatment_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "initial_treatment_code_st",
+          "description": "CIE-10-CM code of the initial treatment ",
+          "standard_classification": "CIE-10-CM",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Minimun basic hospital discharge dataset",
+          "observations_comments": "CIE-10-CM",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "initial_treatment_date_dt",
+          "description": "Date of the initial treatment",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Minimun basic hospital discharge dataset",
+          "observations_comments": "CIE-10-CM",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "surgical_intervention_type_cd",
+          "description": "Main type of breast cancer surgery as initial treatment",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = breast conserving surgery, '2' = mastectomy, '3' = double mastectomy}",
+          "possible_data_source": "Minimun basic hospital discharge dataset \t",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "surgical_intervention_type_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "adyuvant_treatment_cd",
+          "description": "Treatment (or planned treatment) after main treatment",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = none, '2' = radiotherapy, '3' = hormonal therapy, '4' = chemotherapy}",
+          "possible_data_source": "Minimun basic hospital discharge dataset ",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "adyuvant_treatment_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "lymphovascular_invasion_bl",
+          "description": "Describe whether lymphovascular invasion is absent or present in the patient",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "number_lymph_nodes_examined_nm",
+          "description": "Number of lymph nodes examined during the surgical procedure",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "number_lymph_nodes_positive_nm",
+          "description": "Number of lymph nodes positive (i.e., invaded)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {
+        "number_lymph_nodes_positive_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "number_lymph_nodes_examined_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        }
+      }
+    },
+    {
+      "name": "pathological_specimen_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "PseudoIdentifier",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "Apply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "biopsy_dt",
+          "description": "Date when the biopsy of the suspect tissue was done",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Hospital episode",
+          "observations_comments": "",
+          "examples": "2022-01-01",
+          "catalog": null
+        },
+        {
+          "label": "procedure_type_cd",
+          "description": "Type of biopsy procedure done to collect a tissue sample (specimen) for examintation",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = unknown, '2' = none, '3' = core biopsy, '4' = vacum-assisted core biopsy (VAB)}",
+          "possible_data_source": "Hospital episode",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "procedure_type_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_histotype_cd",
+          "description": "Specific type of cancer. Classification describing cancer's origin and histologic features",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = lobular carcinoma in situ, '2' = ductal carcinoma in situ, '3' = solid-type infiltrating duct carcinoma, '4' = infiltrating lobular carcinoma, '5' = other histotypes}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_histotype_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "estrogen_receptors_perc_nm",
+          "description": "Percentage of cancer cells in the specimen that have receptors for the estrogen hormone",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "Percentage",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "0% to 100%",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "progesterone_receptors_perc_nm",
+          "description": "Percentage of cancer cells in the specimen that have receptors for the progesterone hormone",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "Percentage",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "0% to 100%",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "her2_ihc_status_bl",
+          "description": "Presence of human epidermal growth factor 2 (Caution: Check logic)",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = negative (IHC value 0 or 1), '1' = positive (IHC value 3+ or verified by FISH if IHC 2+)}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "Please, check conditional logic while transforming the value of the results into 0 = negative / 1 = positive, boolean values",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "her2_fish_positive_bl",
+          "description": "Presence of human epidermal growth factor 2 (FISH test)",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "ki67_perc_nm",
+          "description": "Percentage of expression of the Ki-67 protein, indicating how fast cancer cells are dividing",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "Percentage",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "0% to 100%",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "intrinsic_subtype_cd",
+          "description": "Biologically distinct types of breast cancer classified based on their gene expression patterns",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = unknown, '2' = luminal A, '3' = luminal B, '4' = HER2-pure, '5' = HER2-enriched, '6' = triple negative}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "intrinsic_subtype_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "breast_cancer_molecular_subtype_cd",
+          "description": "Cancer type additional information: Breast cancer molecular subtype (PAM50)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Luminal A, '1' = Luminal B - HER2 negative, '2' = Luminal B - HER2 positive/HR positive, '3' = HER2 positive (enriched)/HR negative (non-luminal)}",
+          "possible_data_source": "Biopsy specimen anatomophatology report or anatomopathology image analysis",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "breast_cancer_molecular_subtype_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_grade_cd",
+          "description": "Breast cancer grade describes how abnormal cancer cells look compared to normal cells",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = unknown,  '2' = low grade, '3' = intermediate grade, '4' = high grade}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_grade_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_stage_cd",
+          "description": "Breast cancer staging describing the size of the tumor and the extent of its spread. ",
+          "standard_classification": "TNM system",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = 0, '1' = I, '2' = IA, '3' = IB, '4' = IIA, '5' = IIB, '6' = III, '7' = IIIA, '8' = IIIB, '9' = IIIC, '10' = IV}",
+          "possible_data_source": "Tumor extension study, diagnostic imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_stage_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_type_cd",
+          "description": "Breast cancer type categorized by their location and whether they are invasive or non-invasive",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA,'1' = unknown, '2' = Ductal infiltrating (IDC),  '3' = Lobular infiltrating (ILC), '4' = dutal in situ (Dcis), '5' = lobular in situ (Lcis)}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_type_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_initial_t_stage_cd",
+          "description": "Describes the size of the primary tumor and its extent of invasion into surrounding tissues (pT)",
+          "standard_classification": "TNM",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Tx, '1' = T0, '2' = Tis, '3' = T1mi, '4' = T1, '5' = T1a, '6' = T1b, '7' = T1c, '8' = T2, '9' = T3, '10' = T4, '11' = T4a, '12' = T4b, '13' = T4c, '14' = T4d}",
+          "possible_data_source": "Tumor extension study, diagnostic imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_initial_t_stage_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "tumor_initial_n_stage_cd",
+          "description": "Describes the N category of the TNM system describing how cancer has spread to nearby lymph nodes (pN)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Nx, '1' = N0, '2' = N0(i+), '3' = N0(mol+), '4' = N1, '5' = N1mi, '6' = N1a, '7' = N1b, '8' = N1c, '9' = N2, '10' = N2a, '11' = N2a, '12' = N2b, '13' = N3, '14' = N3a, '15' = N3b, '16' = N3c}",
+          "possible_data_source": "Tumor extension study, diagnostic imaging, anatomopathology report",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "tumor_initial_n_stage_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "staging_cmetastasis_cd",
+          "description": "Indicates if the cancer has spread to distant parts of the body (by image)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = M0, '2' = M1}",
+          "possible_data_source": "Tumor extension study, diagnostic imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "staging_cmetastasis_cd_catalog.csv",
+            "column_name": "code"
+          }
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {
+        "her2_fish_positive_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "breast_cancer_molecular_subtype_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "her2_ihc_status_bl": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        }
+      }
+    },
+    {
+      "name": "neoadjuvant_treatment_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "PseudoIdentifier",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": " \tApply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "neoadjuvant_therapy_drug_atc_cd",
+          "description": "ATC code of the drug used for neoadjuvant therapy",
+          "standard_classification": "ATC WHO",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic ambulatory prescription (ePrescription)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": {
+            "filename": "neoadjuvant_therapy_drug_atc_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "neoadjuvant_therapy_drug_rxnorm_cd",
+          "description": "RxNorm code of the drug used for neoadjuvant therapy",
+          "standard_classification": "RxNorm drug codes",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic ambulatory prescription (ePrescription)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "neoadjuvant_therapy_duration_nm",
+          "description": "Duration of the neoadjuvant therapy pharmacological (drug) treatment in months",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "months",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic ambulatory prescription (ePrescription)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "drug_dosage_nm",
+          "description": "Neoadjuvant therapy drug dosage in miligrams",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Numerical",
+          "units": "miligrams",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic ambulatory prescription (ePrescription)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "cumulative_drug_dosage_nm",
+          "description": "Neoadjuvant therapy drug cumulative dosage",
+          "standard_classification": "",
+          "format": "Double",
+          "type": "Numerical",
+          "units": "miligrams",
+          "requirement_level": "Optional",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "Electronic ambulatory prescription (ePrescription)",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {
+        "neoadjuvant_therapy_duration_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "neoadjuvant_therapy_drug_rxnorm_cd": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "cumulative_drug_dosage_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        },
+        "drug_dosage_nm": {
+          "dist": "random_default",
+          "params": {},
+          "null_percentage": 0
+        }
+      }
+    },
+    {
+      "name": "followup_ent",
+      "time_varying": false,
+      "variables": [
+        {
+          "label": "woman_id",
+          "description": "PseudoIdentifier",
+          "standard_classification": "",
+          "format": "String",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": " \tApply encription to generate a consistent pseudonym across linked data sources",
+          "possible_data_source": "Health insurance database or Health care users' database",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "neoadjuvant_therapy_response_mp_cd",
+          "description": "Neoadjuvant therapy evaluates how much the tumor was affected by chemo (Miller-Payne -MP grading)",
+          "standard_classification": "Miller-Payne grading system",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = unknown, '2' = Grade 1, '3' = Grade 2, '4' = Grade 3, '5' = Grade 4, '6' = Grade 5 (pCR)}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis ",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "neoadjuvant_therapy_response_mp_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "neoadjuvant_therapy_response_rcb_cd",
+          "description": "Neoadjuvant therapy evaluates how much the tumor was affected by chemo (Residual Cancer Burden)",
+          "standard_classification": "Residual Cancer Burden (RCB)",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Calculated",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = unknown, '2' = RCB-0, '3' = RCB-I, '4' = RCB-II, '5' = RCB-III}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis, diagnosis imaging",
+          "observations_comments": "Residual Cancer Burden (RCB) is scoreing system used after neoadjuvant therapy to measure the amount of invasive breast cancer remaining in the breast and lymph nodes. The results are categorised in to four groups: RCB-0 (no residual cancer), RCB-I (minimal residual cancer), RCB-II (moderate residual cancer), RCB-III (extensive residual cancer). The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "neoadjuvant_therapy_response_rcb_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "ypt_cd",
+          "description": "Size of the tumor after neoadjuvancy treatment",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = ypTx, '1' = ypT0, '2'  = ypTis, '3' = ypT1, '4' = ypTmi, '5' = ypT1a, '6' = ypT1b, '7' = ypT1c, '8' = ypT2, '9' = ypT3, '10' = ypT4, '11' = ypT4a, '12' = ypT4b, '13' = ypT4c, '14' = ypT4d}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis, diagnosis imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "ypt_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "ypn_cd",
+          "description": "Node lymph involvement after neoadjuvancy treatment",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = ypNx, '1' = ypN0, '2' = ypN0 (i+), '3' = ypN0 (mol+), '4' = ypN1, '5' = ypN1mi, '6' = ypN1a, '7' = ypN1b, '8' = ypN1c, '9' = ypN2, '10' = ypN2a, '11' = ypN2b, '12' = ypN3, '13' = ypN3a, '14' = ypN3b}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis, diagnosis imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "ypn_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "ypm_cd",
+          "description": "Metastasis presence after neoadjuvancy treatment",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Recommended",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = Mx, '1' = M0, '2' = M1}",
+          "possible_data_source": "Biopsy specimen anatomopathology report; anatomopathology image analysis, diagnosis imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "ypm_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "recurrence_date_dt",
+          "description": "Date when the recurrence was detected (alias date of relapse)",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "recurrence_bl",
+          "description": "Whether the lesion has recurred or relapsed",
+          "standard_classification": "",
+          "format": "Boolean",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "{'0' = FALSE, '1' = TRUE}",
+          "possible_data_source": "Minimum basic hospital discharge dataset,Tumor extension study, diagnostic imaging",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        },
+        {
+          "label": "recurrence_site_cd",
+          "description": "Breast cancer recurrence location (i.e., relapse type)",
+          "standard_classification": "",
+          "format": "Integer",
+          "type": "Categorical",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": true,
+          "transformations_from_origin": "{'0' = NA, '1' = none, '2' = locally (same breast), '3' = ipsilateral (other breast), '4' = regionally (nearby lymph nodes), '5' = distantly (lungs, bones, brain)}",
+          "possible_data_source": "Minimum basic hospital discharge dataset, Tumor extension study, diagnostic imaging",
+          "observations_comments": "The values of the variable must match the 'code' column in the catalog.",
+          "examples": "",
+          "catalog": {
+            "filename": "recurrence_site_cd_catalog.csv",
+            "column_name": "code"
+          }
+        },
+        {
+          "label": "last_followup_contact_dt",
+          "description": "Last date of follow up contact in the clinical history of the patient",
+          "standard_classification": "ISO 8601",
+          "format": "Date",
+          "type": "Date",
+          "units": "",
+          "requirement_level": "Required",
+          "characteristic": "Observed",
+          "catalog_bl": false,
+          "transformations_from_origin": "",
+          "possible_data_source": "",
+          "observations_comments": "",
+          "examples": "",
+          "catalog": null
+        }
+      ],
+      "rules": [],
+      "synthetic_configuration": {}
+    }
+  ],
+  "relationships": [
+    {
+      "left_entity": "women_ent",
+      "right_entity": "dicom_series_ent",
+      "join_type": "LEFT JOIN",
+      "left_column": "woman_id",
+      "right_column": "woman_id"
+    },
+    {
+      "left_entity": "women_ent",
+      "right_entity": "pathological_specimen_ent",
+      "join_type": "LEFT JOIN",
+      "left_column": "woman_id",
+      "right_column": "woman_id"
+    },
+    {
+      "left_entity": "women_ent",
+      "right_entity": "surgical_treatment_ent",
+      "join_type": "LEFT JOIN",
+      "left_column": "woman_id",
+      "right_column": "woman_id"
+    },
+    {
+      "left_entity": "women_ent",
+      "right_entity": "followup_ent",
+      "join_type": "LEFT JOIN",
+      "left_column": "woman_id",
+      "right_column": "woman_id"
+    },
+    {
+      "left_entity": "women_ent",
+      "right_entity": "neoadjuvant_treatment_ent",
+      "join_type": "LEFT JOIN",
+      "left_column": "woman_id",
+      "right_column": "woman_id"
+    }
+  ]
+}

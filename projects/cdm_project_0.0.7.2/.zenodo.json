@@ -1,0 +1,25 @@
+{
+    "title": "BreastScan",
+    "description": "Study of breast cancer diagnosed during routine mammogram screenings including interval cancer. ",
+    "creators": [
+        {
+            "name": "HULAFE",
+            "affiliation": "",
+            "orcid": ""
+        },
+        {
+            "name": "IACS",
+            "affiliation": "",
+            "orcid": ""
+        }
+    ],
+    "keywords": [
+        "breast cancer",
+        "prediction",
+        "population screening",
+        "interval cancer",
+        "preventive health services",
+        "public health",
+        "image analysis"
+    ]
+}

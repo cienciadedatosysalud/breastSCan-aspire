@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below:"
+title: "BreastScan"
+version: "0.0.7"
+date-released: "2026-05-20"
+url: "https://www.eibir.org/projects/breastscan/"
+license: "CC BY 4.0 https://creativecommons.org/licenses/by/4.0/"
+authors:
+- family-names: "HULAFE"
+  given-names: "HULAFE"
+  orcid: ""
+- family-names: "IACS"
+  given-names: "IACS"
+  orcid: ""
